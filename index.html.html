@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padrinhos</title>
+    <style>
+        /* Estilo para o conteúdo */
+        #conteudo {
+            background-image: url('img/bg3.png');
+            background-color: #ff7a7a;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            text-align: center;
+            font-family: sans-serif;
+            color: white;
+            position: relative;
+        }
+
+        h2 {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            margin: 0;
+            color: rgb(255, 255, 255);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 150px;
+        }
+
+        .btn {
+            background-color: rgb(255, 255, 255);
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            width: 150px;
+            border-radius: 10px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: darkorange;
+        }
+
+        @keyframes brilho {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        #efeitoAnimacao {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .particula {
+            position: absolute;
+            font-size: 24px;
+            color: red;
+            animation: brilho 3s ease-in-out infinite;
+        }
+
+        /* Container do botão de coração na parte inferior */
+        #heartButtonContainer {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        #playButton {
+            background-color: transparent;
+            border: none;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #playButton:hover {
+            transform: scale(1.2);
+            color: darkorange;
+        }
+
+        #playText {
+            color: white;
+            font-size: 14px;
+            margin: 5px 0 0;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #playText:hover {
+            color: darkorange;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="conteudo">
+        <h2>Queridos Padrinho e Madrinha, eu ainda estou me preparando para chegar, mas já estou pensando em vocês com muito carinho. Vocês aceitam ser as pessoas especiais que vou chamar de 'Dindo e Dinda', me guiando com amor e carinho durante toda a minha vida?</h2>
+
+        <div class="btn-container">
+            <button class="btn" onclick="sim()">SIM</button>
+            <button class="btn" onclick="desvia(this)" onmouseover="desvia(this)">NÃO</button>
+        </div>
+
+        <!-- Botão de Play para o som de coração na parte inferior -->
+        <div id="heartButtonContainer">
+            <button id="playButton" onclick="playSound()">❤️</button>
+            <p id="playText" onclick="playSound()">Clique para ouvir</p>
+        </div>
+    </div>
+
+    <div id="efeitoAnimacao"></div>
+
+    <!-- Áudio do som de coração -->
+    <audio id="heartSound" src="audio/heart-sound.mp3"></audio>
+
+    <script>
+        // Função ao clicar em "SIM"
+        function sim() {
+            playSound(); // Toca o som automaticamente
+            criarParticulas(); // Inicia a animação de corações
+            document.body.style.backgroundColor = "lightpink";
+            setTimeout(function () {
+                document.body.style.backgroundColor = "";
+            }, 2000);
+        }
+
+        function criarParticulas() {
+            const container = document.getElementById("efeitoAnimacao");
+            container.style.display = "block";
+
+            for (let i = 0; i < 100; i++) {
+                let particula = document.createElement("div");
+                particula.classList.add("particula");
+                particula.textContent = "♡";
+                particula.style.left = `${Math.random() * 100}vw`;
+                particula.style.top = `${Math.random() * 100}vh`;
+                particula.style.animationDuration = `${Math.random() * 3 + 3}s`;
+                container.appendChild(particula);
+            }
+
+            setTimeout(function () {
+                container.style.display = "none";
+                container.innerHTML = "";
+            }, 6000);
+        }
+
+        function desvia(btn) {
+            btn.style.position = 'absolute';
+            btn.style.bottom = geraPosicao(10, 90);
+            btn.style.left = geraPosicao(10, 90);
+        }
+
+        function geraPosicao(min, max) {
+            return (Math.random() * (max - min) + min) + "%";
+        }
+
+        // Função para tocar o som do coração
+        function playSound() {
+            const audio = document.getElementById("heartSound");
+            audio.play();
+        }
+    </script>
+</body>
+
+</html>
